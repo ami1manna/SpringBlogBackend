@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * CommentDTO
  * Returned when listing comments under a post.
  */
-public class CommmentDTO {
+public class CommentDTO {
     private Long id;
     private Long postId;
     private Long authorId;
@@ -14,9 +14,9 @@ public class CommmentDTO {
     private String content;
     private LocalDateTime createdAt;
 
-    public CommmentDTO() {}
+    public CommentDTO() {}
 
-    public CommmentDTO(Long id, Long postId, Long authorId, String authorName, String content, LocalDateTime createdAt) {
+    public CommentDTO(Long id, Long postId, Long authorId, String authorName, String content, LocalDateTime createdAt) {
         this.id = id;
         this.postId = postId;
         this.authorId = authorId;

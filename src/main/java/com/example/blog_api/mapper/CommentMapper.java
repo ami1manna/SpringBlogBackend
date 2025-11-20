@@ -1,30 +1,26 @@
 package com.example.blog_api.mapper;
 
-import com.example.blog_api.dto.CategoryDTO;
-import com.example.blog_api.entity.Category;
+
+import com.example.blog_api.dto.CommentDTO;
+import com.example.blog_api.entity.Comment;
 
 /**
- * Mapper for Category entity.
+ * Mapper for Comment entity.
+ * Converts Comment entity to CommentDTO.
  */
-public class CategoryMapper {
+public class CommentMapper {
 
-    public static CategoryDTO toDTO(Category category) {
-        if (category == null) return null;
+    public static CommentDTO toDTO(Comment comment) {
+        if (comment == null) return null;
 
-        return new CategoryDTO(
-                category.getId(),
-                category.getName(),
-                category.getSlug()
+        return new CommentDTO(
+                comment.getId(),
+                comment.getPost() != null ? comment.getPost().getId() : null,
+                comment.getAuthor() != null ? comment.getAuthor().getId() : null,
+                comment.getAuthor() != null ? comment.getAuthor().getName() : null,
+                comment.getContent(),
+                comment.getCreatedAt()
         );
     }
-
-    public static Category toEntity(CategoryDTO dto) {
-        if (dto == null) return null;
-
-        Category category = new Category();
-        category.setId(dto.getId());
-        category.setName(dto.getName());
-        category.setSlug(dto.getSlug());
-        return category;
-    }
 }
+

@@ -126,8 +126,15 @@ public class Post {
         this.comments = comments;
     }
 
-    // toString
+    public Category getCategory() {
+        return category;
+    }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    // toString
     @Override
     public String toString() {
         return "Post{" +
