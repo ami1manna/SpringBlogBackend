@@ -1,5 +1,7 @@
 package com.example.blog_api.dto;
 
+import org.springframework.http.HttpStatus;
+
 /**
  * Generic API response wrapper used across all controllers.
  */
@@ -14,6 +16,21 @@ public class ApiResponse<T> {
         this.status = status;
         this.message = message;
         this.data = data;
+    }
+
+    // static Factory success method
+    public static <T> ApiResponse<T> success(T data) {
+        return new ApiResponse<>(HttpStatus.OK.value(), "Success", data);
+    }
+
+    // static Factory overloaded success method
+    public static <T> ApiResponse<T> success(int status, String message, T data) {
+        return new ApiResponse<>(status, message, data);
+    }
+
+    // static Factory error method
+    public static <T> ApiResponse<T> error(int status, String message) {
+        return new ApiResponse<>(status, message, null);
     }
 
     public int getStatus() { return status; }
