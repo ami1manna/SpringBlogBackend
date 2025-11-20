@@ -1,5 +1,8 @@
 package com.example.blog_api.dto;
-
+/**
+ * CategoryDTO
+ * Provides basic info for category responses.
+ */
 public class CategoryDTO {
 
     private Long id;
@@ -17,11 +20,23 @@ public class CategoryDTO {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getSlug() {
         return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 }
