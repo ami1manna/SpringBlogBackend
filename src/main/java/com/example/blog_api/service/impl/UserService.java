@@ -1,0 +1,14 @@
+package com.example.blog_api.service.impl;
+
+import com.example.blog_api.dto.UserDTO;
+
+import java.util.List;
+
+public interface UserService {
+
+    UserDTO registerUser(String name , String rawPassword , String role );
+
+    UserDTO getUserById(Long id);
+
+    List<UserDTO> getAllUsers();
+}

@@ -42,6 +42,9 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public User(String name, String encodedPassword, String role) {
+    }
+
     // Getter setter methods
 
 
