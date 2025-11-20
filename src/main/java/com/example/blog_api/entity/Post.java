@@ -23,18 +23,25 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
+    @Column(length = 255)
     private String slug;
-
-    // there can be many post done by one author
-    @ManyToOne(fetch = FetchType.LAZY) // create a foreign key reference userID
-    @JoinColumn(name = "author_id") // rename foreign key column name
-    private User author;
-
-
 
     @CreationTimestamp
     @Column(name="created_at" , nullable = false , updatable = false)
     private LocalDateTime createdAt;
+
+    //  author_id FK
+    @ManyToOne(fetch = FetchType.LAZY) // create a foreign key reference userID
+    @JoinColumn(name = "author_id") // rename foreign key column name
+    private User author;
+
+    // category_id FK
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+
+
 
     // Just Joins Comments Table in this post no seperate refernce Commment id
     @OneToMany(mappedBy = "post" , fetch = FetchType.LAZY , cascade = CascadeType.ALL , orphanRemoval = true)
