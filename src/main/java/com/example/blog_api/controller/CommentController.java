@@ -21,10 +21,9 @@ public class CommentController {
     }
 
 
-    // create a comment by user to postId
     @PostMapping
     public ResponseEntity<ApiResponse<CommentDTO>> create(@RequestBody CommentCreateDTO dto) {
-
+        System.out.println( "create: " + dto);
         CommentDTO saved = commentService.create(dto);
 
         return new ResponseEntity<>(
@@ -33,7 +32,6 @@ public class CommentController {
         );
     }
 
-    //  update comment by commentId - user
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<CommentDTO>> update(
             @PathVariable Long id,

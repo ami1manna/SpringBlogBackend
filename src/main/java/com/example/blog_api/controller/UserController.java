@@ -1,6 +1,7 @@
 package com.example.blog_api.controller;
 
 import com.example.blog_api.dto.ApiResponse;
+import com.example.blog_api.dto.RegisterRequest;
 import com.example.blog_api.dto.UserDTO;
 import com.example.blog_api.service.impl.UserService;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,9 @@ public class UserController {
 
     // register user
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserDTO>> register(@RequestParam String name ,
-                                                         @RequestParam String password) {
+    public ResponseEntity<ApiResponse<UserDTO>> register(@RequestBody RegisterRequest registerRequest) {
 
-        UserDTO userDTO = userService.registerUser(name , password , "ROLE_VIEWER");
+        UserDTO userDTO = userService.registerUser(registerRequest.getName() , registerRequest.getPassword() , "ROLE_VIEWER");
 
         ApiResponse<UserDTO> res = new ApiResponse<>(
                 HttpStatus.CREATED.value(),
@@ -49,6 +49,7 @@ public class UserController {
 
     // get all users in database
     // admin
+    @GetMapping
     public ResponseEntity<ApiResponse<List<UserDTO>>> getAllUsers() {
 
         List<UserDTO> users = userService.getAllUsers();
