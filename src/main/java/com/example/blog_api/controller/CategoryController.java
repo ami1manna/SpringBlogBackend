@@ -76,7 +76,7 @@ public class CategoryController {
         return ResponseEntity.ok(
                 new ApiResponse<>(200, "Category fetched successfully", dto)
         );
-    }
+    }p
 
     // get All Category only admin
     @GetMapping
