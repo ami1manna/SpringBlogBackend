@@ -26,6 +26,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<UserDTO>> register(@RequestBody LoginRequest req) {
 
+
         UserDTO user = authService.registerViewer(req.getName(), req.getPassword());
 
         return new ResponseEntity<>(

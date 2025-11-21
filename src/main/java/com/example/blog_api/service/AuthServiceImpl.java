@@ -42,7 +42,9 @@ public class AuthServiceImpl implements AuthService {
         if(userRepository.existsByName(username)){
             throw new ApiException("User name already exists");
         }
+
     User user = new User(username, passwordEncoder.encode(password),"ROLE_VIEWER");
+        System.out.println(user);
         userRepository.save(user);
 
         return UserMapper.toDTO(user);

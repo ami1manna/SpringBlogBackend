@@ -43,6 +43,9 @@ public class User {
     }
 
     public User(String name, String encodedPassword, String role) {
+        this.name = name;
+        this.password = encodedPassword;
+        this.role = role;
     }
 
     // Getter setter methods
