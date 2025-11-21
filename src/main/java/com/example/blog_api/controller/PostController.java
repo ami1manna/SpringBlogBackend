@@ -5,13 +5,14 @@ import com.example.blog_api.dto.post.PostCreateDTO;
 import com.example.blog_api.dto.post.PostDTO;
 import com.example.blog_api.dto.post.PostUpdateDTO;
 import com.example.blog_api.service.impl.PostService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @Controller
 @RequestMapping("/api/posts")
 public class PostController {

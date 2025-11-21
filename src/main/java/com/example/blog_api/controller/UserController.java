@@ -4,12 +4,13 @@ import com.example.blog_api.dto.api.ApiResponse;
 import com.example.blog_api.dto.user.RegisterRequest;
 import com.example.blog_api.dto.user.UserDTO;
 import com.example.blog_api.service.impl.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

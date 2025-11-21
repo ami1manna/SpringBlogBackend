@@ -3,12 +3,13 @@ package com.example.blog_api.controller;
 import com.example.blog_api.dto.api.ApiResponse;
 import com.example.blog_api.dto.category.CategoryDTO;
 import com.example.blog_api.service.impl.CategoryService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {

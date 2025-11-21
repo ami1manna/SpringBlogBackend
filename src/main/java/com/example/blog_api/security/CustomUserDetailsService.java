@@ -3,9 +3,15 @@ package com.example.blog_api.security;
 import com.example.blog_api.entity.User;
 import com.example.blog_api.exception.ResourceNotFoundException;
 import com.example.blog_api.respository.UserRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,4 +37,6 @@ public class CustomUserDetailsService implements UserDetailsService {
              .build();
 
     }
+
+
 }
