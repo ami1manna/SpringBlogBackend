@@ -1,8 +1,8 @@
 package com.example.blog_api.service;
 
-import com.example.blog_api.dto.CommentCreateDTO;
-import com.example.blog_api.dto.CommentDTO;
-import com.example.blog_api.dto.CommentUpdateDTO;
+import com.example.blog_api.dto.comment.CommentCreateDTO;
+import com.example.blog_api.dto.comment.CommentDTO;
+import com.example.blog_api.dto.comment.CommentUpdateDTO;
 import com.example.blog_api.entity.Comment;
 import com.example.blog_api.entity.Post;
 import com.example.blog_api.entity.User;

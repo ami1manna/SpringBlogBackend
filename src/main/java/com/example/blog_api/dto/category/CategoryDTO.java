@@ -1,4 +1,4 @@
-package com.example.blog_api.dto;
+package com.example.blog_api.dto.category;
 /**
  * CategoryDTO
  * Provides basic info for category responses.

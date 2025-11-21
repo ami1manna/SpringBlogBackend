@@ -1,6 +1,6 @@
 package com.example.blog_api.mapper;
 
-import com.example.blog_api.dto.UserDTO;
+import com.example.blog_api.dto.user.UserDTO;
 import com.example.blog_api.entity.User;
 
 /**

@@ -1,9 +1,9 @@
 package com.example.blog_api.controller;
 
-import com.example.blog_api.dto.ApiResponse;
-import com.example.blog_api.dto.PostCreateDTO;
-import com.example.blog_api.dto.PostDTO;
-import com.example.blog_api.dto.PostUpdateDTO;
+import com.example.blog_api.dto.api.ApiResponse;
+import com.example.blog_api.dto.post.PostCreateDTO;
+import com.example.blog_api.dto.post.PostDTO;
+import com.example.blog_api.dto.post.PostUpdateDTO;
 import com.example.blog_api.service.impl.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

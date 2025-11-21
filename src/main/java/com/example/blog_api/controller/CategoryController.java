@@ -1,10 +1,8 @@
 package com.example.blog_api.controller;
 
-import com.example.blog_api.dto.ApiResponse;
-import com.example.blog_api.dto.CategoryDTO;
-import com.example.blog_api.entity.Category;
+import com.example.blog_api.dto.api.ApiResponse;
+import com.example.blog_api.dto.category.CategoryDTO;
 import com.example.blog_api.service.impl.CategoryService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.example.blog_api.dto;
+package com.example.blog_api.dto.comment;
 
 /**
  * CommentUpdateDTO
@@ -11,5 +11,7 @@ public class CommentUpdateDTO {
     public CommentUpdateDTO() {}
 
     public String getContent() { return content; }
+
     public void setContent(String content) { this.content = content; }
+    
 }

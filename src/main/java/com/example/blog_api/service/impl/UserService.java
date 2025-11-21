@@ -1,6 +1,6 @@
 package com.example.blog_api.service.impl;
 
-import com.example.blog_api.dto.UserDTO;
+import com.example.blog_api.dto.user.UserDTO;
 
 import java.util.List;
 

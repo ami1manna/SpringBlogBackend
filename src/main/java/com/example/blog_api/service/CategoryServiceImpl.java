@@ -1,6 +1,6 @@
 package com.example.blog_api.service;
 
-import com.example.blog_api.dto.CategoryDTO;
+import com.example.blog_api.dto.category.CategoryDTO;
 import com.example.blog_api.entity.Category;
 import com.example.blog_api.exception.BadRequestException;
 import com.example.blog_api.exception.ResourceNotFoundException;

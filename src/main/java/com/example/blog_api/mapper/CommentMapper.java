@@ -1,7 +1,7 @@
 package com.example.blog_api.mapper;
 
 
-import com.example.blog_api.dto.CommentDTO;
+import com.example.blog_api.dto.comment.CommentDTO;
 import com.example.blog_api.entity.Comment;
 
 /**

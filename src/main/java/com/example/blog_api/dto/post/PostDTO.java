@@ -1,4 +1,7 @@
-package com.example.blog_api.dto;
+package com.example.blog_api.dto.post;
+
+import com.example.blog_api.dto.category.CategoryDTO;
+import com.example.blog_api.dto.user.UserDTO;
 
 import java.time.LocalDateTime;
 
