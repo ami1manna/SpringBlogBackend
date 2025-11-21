@@ -58,7 +58,7 @@ public class JwtUtil {
 
     }
 
-    // Validate Token
+    // Validate Token - Just check whether token is expired or not
     public boolean validateToken(String token){
 
         try{
