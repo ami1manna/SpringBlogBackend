@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
     // User Repository for this
     public final UserRepository userRepository;
     public final PasswordEncoder passwordEncoder;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository , PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -45,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
         return UserMapper.toDTO(user);
     }
+
 
     @Override
     public List<UserDTO> getAllUsers() {
