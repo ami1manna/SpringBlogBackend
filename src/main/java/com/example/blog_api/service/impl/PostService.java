@@ -19,7 +19,7 @@ public interface PostService {
 
     PostDTO getBySlug(String slug);
 
-    List<PostDTO> getAll(int page , int size);
+    Page<PostDTO> getAll(int page , int size);
 
     Page<PostDTO> getAllByAuthor(Long authorId, int page, int size);
     Page<PostDTO> getAllByCategory(Long categoryId, int page, int size);
