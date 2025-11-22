@@ -5,6 +5,7 @@ import com.example.blog_api.dto.comment.CommentCreateDTO;
 import com.example.blog_api.dto.comment.CommentDTO;
 import com.example.blog_api.dto.comment.CommentUpdateDTO;
 import com.example.blog_api.service.impl.CommentService;
+import com.example.blog_api.utils.ResponseFactory;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -30,13 +31,10 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<CommentDTO>> create(@RequestBody CommentCreateDTO dto) {
-        System.out.println( "create: " + dto);
-        CommentDTO saved = commentService.create(dto);
 
-        return new ResponseEntity<>(
-                new ApiResponse<>(201, "Comment added successfully", saved),
-                HttpStatus.CREATED
-        );
+        CommentDTO saved = commentService.create(dto);
+        return ResponseFactory.created(saved , "Comment added successfully");
+
     }
 
     @PutMapping("/{id}")
@@ -45,10 +43,8 @@ public class CommentController {
             @RequestBody CommentUpdateDTO dto) {
 
         CommentDTO updated = commentService.update(id, dto);
+        return ResponseFactory.ok(updated , "Comment updated successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Comment updated successfully", updated)
-        );
     }
 
     // delete comment by commentId - user
@@ -56,10 +52,8 @@ public class CommentController {
     public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id) {
 
         commentService.delete(id);
+        return ResponseFactory.ok("OK" , "Comment deleted successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Comment deleted successfully", "OK")
-        );
     }
 
     // get comment by CommentId
@@ -67,10 +61,8 @@ public class CommentController {
     public ResponseEntity<ApiResponse<CommentDTO>> getById(@PathVariable Long id) {
 
         CommentDTO dto = commentService.getById(id);
+        return ResponseFactory.ok(dto , "Comment fetched successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Comment fetched successfully", dto)
-        );
     }
 
     // get list of comments by postId
@@ -78,10 +70,8 @@ public class CommentController {
     public ResponseEntity<ApiResponse<List<CommentDTO>>> getByPost(@PathVariable Long postId) {
 
         List<CommentDTO> list = commentService.getAllCommentsForPost(postId);
+        return ResponseFactory.ok(list , "Comments fetched successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Comments fetched successfully", list)
-        );
     }
 
 
@@ -89,10 +79,8 @@ public class CommentController {
     public ResponseEntity<ApiResponse<List<CommentDTO>>> getMyComments() {
 
         List<CommentDTO> list = commentService.getMyComments();
+        return ResponseFactory.ok(list , "My comments fetched successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "My comments fetched successfully", list)
-        );
     }
 
 

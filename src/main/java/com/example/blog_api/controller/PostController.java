@@ -5,13 +5,10 @@ import com.example.blog_api.dto.post.PostCreateDTO;
 import com.example.blog_api.dto.post.PostDTO;
 import com.example.blog_api.dto.post.PostUpdateDTO;
 import com.example.blog_api.service.impl.PostService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import com.example.blog_api.utils.ResponseFactory;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -35,10 +32,7 @@ public class PostController {
 
         PostDTO saved = postService.create(dto);
 
-        return new ResponseEntity<>(
-                new ApiResponse<>(201, "Post created successfully", saved),
-                HttpStatus.CREATED
-        );
+        return ResponseFactory.created(saved , "Post created successfully");
     }
 
     // update post by id - author
@@ -49,9 +43,8 @@ public class PostController {
 
         PostDTO updated = postService.update(id, dto);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Post updated successfully", updated)
-        );
+        return ResponseFactory.ok(updated , "Post updated successfully");
+
     }
 
     // delete post by id - author
@@ -60,9 +53,8 @@ public class PostController {
 
         postService.delete(id);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Post deleted successfully", "OK")
-        );
+        return ResponseFactory.ok("OK" , "Post deleted successfully");
+
     }
 
     // get post by id
@@ -71,9 +63,8 @@ public class PostController {
 
         PostDTO dto = postService.getById(id);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Post fetched successfully", dto)
-        );
+        return ResponseFactory.ok(dto , "Post fetched successfully");
+
     }
 
     // get post by slug
@@ -81,10 +72,8 @@ public class PostController {
     public ResponseEntity<ApiResponse<PostDTO>> getBySlug(@PathVariable String slug) {
 
         PostDTO dto = postService.getBySlug(slug);
+        return ResponseFactory.ok(dto , "Post fetched successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Post fetched successfully", dto)
-        );
     }
 
     // get list of post by category
@@ -93,9 +82,8 @@ public class PostController {
 
         List<PostDTO> list = postService.getAllByCategory(categoryId);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Posts fetched successfully", list)
-        );
+        return ResponseFactory.ok(list , "Posts fetched successfully");
+
     }
 
     // get list of  post by author
@@ -104,9 +92,8 @@ public class PostController {
 
         List<PostDTO> list = postService.getAllByAuthor(authorId);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Posts fetched successfully", list)
-        );
+        return ResponseFactory.ok(list , "Posts fetched successfully");
+
     }
 
     // get list of post by title
@@ -115,9 +102,8 @@ public class PostController {
 
         List<PostDTO> list = postService.searchByTitle(keyword);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Search results", list)
-        );
+        return ResponseFactory.ok(list , "Search results");
+
     }
 
     // get all post
@@ -126,9 +112,8 @@ public class PostController {
 
         List<PostDTO> list = postService.getAll();
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Posts fetched successfully", list)
-        );
+        return ResponseFactory.ok(list , "Posts fetched successfully");
+
     }
 
 
@@ -137,9 +122,8 @@ public class PostController {
 
         List<PostDTO> list = postService.getMyPosts();
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "My posts fetched successfully", list)
-        );
+        return ResponseFactory.ok(list , "My posts fetched successfully");
+
     }
 
 
