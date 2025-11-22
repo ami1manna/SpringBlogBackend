@@ -8,8 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema(description = "DTO used to create a new blog post")
 public class PostCreateDTO {
-     @Schema(description = "ID of the post author", example = "1")
-     private Long authorId;
+
 
      @Schema(description = "ID of the category", example = "2")
      private Long categoryId;
@@ -25,8 +24,6 @@ public class PostCreateDTO {
 
     public PostCreateDTO() {}
 
-    public Long getAuthorId() { return authorId; }
-    public void setAuthorId(Long authorId) { this.authorId = authorId; }
 
     public Long getCategoryId() { return categoryId; }
     public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }

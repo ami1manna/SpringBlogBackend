@@ -16,4 +16,8 @@ public interface CommentService {
     CommentDTO getById(Long id);
 
     List<CommentDTO> getAllCommentsForPost(Long postId);
+
+    List<CommentDTO> getMyComments();
+
+
 }

@@ -40,20 +40,22 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO create(PostCreateDTO dto) {
-        // get author details
-        User author = userRepo.findById(dto.getAuthorId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Author not found: " + dto.getAuthorId()));
 
-        // get Category details
+        User user = AuthUtil.getLoggedInUser(userRepo);
+
         Category category = categoryRepo.findById(dto.getCategoryId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Category not found: " + dto.getCategoryId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
-        Post post = new Post(author, category, dto.getTitle(), dto.getSlug(), dto.getContent());
-        post = postRepo.save(post);
+        Post post = new Post();
+        post.setAuthor(user);
+        post.setCategory(category);
+        post.setTitle(dto.getTitle());
+        post.setSlug(dto.getSlug());
+        post.setContent(dto.getContent());
 
-        return PostMapper.toDTO(post);
+        Post saved = postRepo.save(post);
+
+        return PostMapper.toDTO(saved);
     }
 
     @Override
@@ -63,10 +65,7 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Post not found: " + id));
 
-        // Logged-in user
-        String username = AuthUtil.getLoggedInUsername();
-        User user = userRepo.findByName(username)
-                .orElseThrow(() -> new ApiException("Unauthorized"));
+        User user = AuthUtil.getLoggedInUser(userRepo);
 
         // Admin bypass
         boolean isAdmin = user.getRole().equals("ROLE_ADMIN");
@@ -99,12 +98,9 @@ public class PostServiceImpl implements PostService {
         Post post = postRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + id));
 
-        // Logged-in user
-        String username = AuthUtil.getLoggedInUsername();
-        User user = userRepo.findByName(username)
-                .orElseThrow(() -> new ApiException("Unauthorized"));
+        User user = AuthUtil.getLoggedInUser(userRepo);
 
-        boolean isAdmin = user.getRole().equals("ROLE_ADMIN");
+        boolean isAdmin = AuthUtil.isAdmin(user);
 
         if (!isAdmin && !post.getAuthor().getId().equals(user.getId())) {
             throw new ApiException("You are not allowed to delete this post");
@@ -162,4 +158,16 @@ public class PostServiceImpl implements PostService {
                 .map(PostMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<PostDTO> getMyPosts() {
+
+        User user = AuthUtil.getLoggedInUser(userRepo);
+
+        return postRepo.findByAuthorId(user.getId())
+                .stream()
+                .map(PostMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
 }

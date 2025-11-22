@@ -132,4 +132,16 @@ public class PostController {
     }
 
 
+    @GetMapping("/mine")
+    public ResponseEntity<ApiResponse<List<PostDTO>>> getMyPosts() {
+
+        List<PostDTO> list = postService.getMyPosts();
+
+        return ResponseEntity.ok(
+                new ApiResponse<>(200, "My posts fetched successfully", list)
+        );
+    }
+
+
+
 }

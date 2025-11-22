@@ -5,6 +5,8 @@ import com.example.blog_api.dto.comment.CommentCreateDTO;
 import com.example.blog_api.dto.comment.CommentDTO;
 import com.example.blog_api.dto.comment.CommentUpdateDTO;
 import com.example.blog_api.service.impl.CommentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -81,6 +83,18 @@ public class CommentController {
                 new ApiResponse<>(200, "Comments fetched successfully", list)
         );
     }
+
+
+    @GetMapping("/mine")
+    public ResponseEntity<ApiResponse<List<CommentDTO>>> getMyComments() {
+
+        List<CommentDTO> list = commentService.getMyComments();
+
+        return ResponseEntity.ok(
+                new ApiResponse<>(200, "My comments fetched successfully", list)
+        );
+    }
+
 
 
 }
