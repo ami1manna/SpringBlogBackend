@@ -61,7 +61,7 @@ src/main/java/com/ami1manna/blog
 
 **1. Clone Repository**
 ```bash
-git clone https://github.com/<your-username>/<your-repo>.git
+git clone https://github.com/ami1manna/SpringBlogBackend
 cd <your-repo>
 ```
 
@@ -191,4 +191,5 @@ Click **Authorize** and enter: `Bearer <your-access-token>`
 2. **Login**: `POST /auth/login` → Copy `accessToken`
 3. **Add Header**: `Authorization: Bearer <token>`
 4. **Test Endpoints**: Use Swagger UI for interactive testing
+
  
