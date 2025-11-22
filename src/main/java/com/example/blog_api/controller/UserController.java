@@ -5,12 +5,16 @@ import com.example.blog_api.dto.user.RegisterRequest;
 import com.example.blog_api.dto.user.UserDTO;
 import com.example.blog_api.service.impl.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+// for swagger
+@Tag(name = "Users", description = "User management operations (Admin only)")
 @SecurityRequirement(name = "bearerAuth")
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

@@ -4,12 +4,16 @@ import com.example.blog_api.dto.api.ApiResponse;
 import com.example.blog_api.dto.category.CategoryDTO;
 import com.example.blog_api.service.impl.CategoryService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+// swagger
+@Tag(name = "Categories", description = "Category CRUD operations")
 @SecurityRequirement(name = "bearerAuth")
+
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {

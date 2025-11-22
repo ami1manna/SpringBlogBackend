@@ -45,7 +45,7 @@ public  class SecurityConfig {
                 // -----------------------------
                 // Public Access
                 // -----------------------------
-                .requestMatchers("api/auth/**").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
 
                 // Anyone can READ posts/comments/categories (GET only)
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/posts/**").permitAll()

@@ -6,13 +6,16 @@ import com.example.blog_api.dto.comment.CommentDTO;
 import com.example.blog_api.dto.comment.CommentUpdateDTO;
 import com.example.blog_api.service.impl.CommentService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+//swagger
+@Tag(name = "Comments", description = "Comment CRUD operations")
 @SecurityRequirement(name = "bearerAuth")
+
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
