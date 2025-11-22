@@ -61,7 +61,7 @@ src/main/java/com/ami1manna/blog
 
 **1. Clone Repository**
 ```bash
-git clone https://github.com/ami1manna/SpringBlogBackend
+git clone https://github.com/<your-username>/<your-repo>.git
 cd <your-repo>
 ```
 
@@ -107,9 +107,9 @@ Location: `com/ami1manna/blog/config/DataInitializer.java`
 - `GET /api/posts/**`
 - `GET /api/comments/**`
 - `GET /api/categories/**`
-- `POST /auth/register`
-- `POST /auth/login`
-- `POST /auth/refresh`
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/refresh`
 
 **Viewer (Authenticated)**
 - Create/update/delete own posts and comments
@@ -140,11 +140,11 @@ Click **Authorize** and enter: `Bearer <your-access-token>`
 
 ### Authentication
 
-| Method | Endpoint         | Description            |
-| ------ | ---------------- | ---------------------- |
-| POST   | `/auth/register` | Register Viewer        |
-| POST   | `/auth/login`    | Login (returns tokens) |
-| POST   | `/auth/refresh`  | Refresh access token   |
+| Method | Endpoint             | Description            |
+| ------ | -------------------- | ---------------------- |
+| POST   | `/api/auth/register` | Register Viewer        |
+| POST   | `/api/auth/login`    | Login (returns tokens) |
+| POST   | `/api/auth/refresh`  | Refresh access token   |
 
 ### Users
 
@@ -187,9 +187,11 @@ Click **Authorize** and enter: `Bearer <your-access-token>`
 
 ## Testing
 
-1. **Register**: `POST /auth/register`
-2. **Login**: `POST /auth/login` → Copy `accessToken`
+1. **Register**: `POST /api/auth/register`
+2. **Login**: `POST /api/auth/login` → Copy `accessToken`
 3. **Add Header**: `Authorization: Bearer <token>`
 4. **Test Endpoints**: Use Swagger UI for interactive testing
 
- 
+## License
+
+MIT License
