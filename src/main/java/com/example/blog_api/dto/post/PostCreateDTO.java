@@ -1,17 +1,27 @@
 package com.example.blog_api.dto.post;
 
- /**
+import io.swagger.v3.oas.annotations.media.Schema;
+
+/**
  * PostCreateDTO
  * Used for creating new posts from client.
  */
+@Schema(description = "DTO used to create a new blog post")
 public class PostCreateDTO {
-    // except id , createdAt ,
-    // userDTO(instead its ID) , CategoryID(instead its ID)
-    private Long authorId;
-    private Long categoryId;
-    private String title;
-    private String slug;
-    private String content;
+     @Schema(description = "ID of the post author", example = "1")
+     private Long authorId;
+
+     @Schema(description = "ID of the category", example = "2")
+     private Long categoryId;
+
+     @Schema(description = "Post title", example = "Top 10 Java Tips")
+     private String title;
+
+     @Schema(description = "URL friendly slug", example = "top-10-java-tips")
+     private String slug;
+
+     @Schema(description = "Main content of the post", example = "Full article content...")
+     private String content;
 
     public PostCreateDTO() {}
 
