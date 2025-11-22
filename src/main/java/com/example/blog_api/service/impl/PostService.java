@@ -25,4 +25,8 @@ public interface PostService {
     List<PostDTO> getAllByCategory(Long categoryId);
 
     List<PostDTO> searchByTitle(String keyword);
+
+    List<PostDTO> getMyPosts();
+
+
 }

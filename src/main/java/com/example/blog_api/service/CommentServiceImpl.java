@@ -58,11 +58,9 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found: " + id));
 
-        String username = AuthUtil.getLoggedInUsername();
-        User user = userRepo.findByName(username)
-                .orElseThrow(() -> new ApiException("Unauthorized"));
+        User user = AuthUtil.getLoggedInUser(userRepo);
 
-        boolean isAdmin = user.getRole().equals("ROLE_ADMIN");
+        boolean isAdmin = AuthUtil.isAdmin(user);
 
         if (!isAdmin && !comment.getAuthor().getId().equals(user.getId())) {
             throw new ApiException("You are not allowed to update this comment");
@@ -81,11 +79,9 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found: " + id));
 
-        String username = AuthUtil.getLoggedInUsername();
-        User user = userRepo.findByName(username)
-                .orElseThrow(() -> new ApiException("Unauthorized"));
+        User user = AuthUtil.getLoggedInUser(userRepo);
 
-        boolean isAdmin = user.getRole().equals("ROLE_ADMIN");
+        boolean isAdmin = AuthUtil.isAdmin(user);
 
         if (!isAdmin && !comment.getAuthor().getId().equals(user.getId())) {
             throw new ApiException("You are not allowed to delete this comment");
@@ -112,4 +108,16 @@ public class CommentServiceImpl implements CommentService {
                 .map(CommentMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<CommentDTO> getMyComments() {
+
+        User user = AuthUtil.getLoggedInUser(userRepo);
+
+        return commentRepo.findByAuthorId(user.getId())
+                .stream()
+                .map(CommentMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
 }
