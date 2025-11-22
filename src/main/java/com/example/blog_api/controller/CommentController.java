@@ -1,16 +1,15 @@
 package com.example.blog_api.controller;
 
 import com.example.blog_api.dto.api.ApiResponse;
+import com.example.blog_api.dto.api.PaginatedResponse;
 import com.example.blog_api.dto.comment.CommentCreateDTO;
 import com.example.blog_api.dto.comment.CommentDTO;
 import com.example.blog_api.dto.comment.CommentUpdateDTO;
 import com.example.blog_api.service.impl.CommentService;
 import com.example.blog_api.utils.ResponseFactory;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,21 +66,25 @@ public class CommentController {
 
     // get list of comments by postId
     @GetMapping("/post/{postId}")
-    public ResponseEntity<ApiResponse<List<CommentDTO>>> getByPost(@PathVariable Long postId) {
+    public ResponseEntity<ApiResponse<PaginatedResponse<CommentDTO>>> getByPost(
+            @PathVariable Long postId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        List<CommentDTO> list = commentService.getAllCommentsForPost(postId);
-        return ResponseFactory.ok(list , "Comments fetched successfully");
-
+        Page<CommentDTO> dtoPage = commentService.getCommentsForPost(postId, page, size);
+        return ResponseFactory.paginated(dtoPage, "Comments fetched successfully");
     }
 
 
     @GetMapping("/mine")
-    public ResponseEntity<ApiResponse<List<CommentDTO>>> getMyComments() {
+    public ResponseEntity<ApiResponse<PaginatedResponse<CommentDTO>>> getMyComments(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        List<CommentDTO> list = commentService.getMyComments();
-        return ResponseFactory.ok(list , "My comments fetched successfully");
-
+        Page<CommentDTO> dtoPage = commentService.getMyComments(page, size);
+        return ResponseFactory.paginated(dtoPage, "My comments fetched successfully");
     }
+
 
 
 

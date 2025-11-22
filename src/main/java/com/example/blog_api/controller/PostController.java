@@ -1,6 +1,7 @@
 package com.example.blog_api.controller;
 
 import com.example.blog_api.dto.api.ApiResponse;
+import com.example.blog_api.dto.api.PaginatedResponse;
 import com.example.blog_api.dto.post.PostCreateDTO;
 import com.example.blog_api.dto.post.PostDTO;
 import com.example.blog_api.dto.post.PostUpdateDTO;
@@ -8,6 +9,7 @@ import com.example.blog_api.service.impl.PostService;
 import com.example.blog_api.utils.ResponseFactory;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -78,53 +80,59 @@ public class PostController {
 
     // get list of post by category
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<ApiResponse<List<PostDTO>>> getByCategory(@PathVariable Long categoryId) {
+    public ResponseEntity<ApiResponse<PaginatedResponse<PostDTO>>> getByCategory(
+            @PathVariable Long categoryId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        List<PostDTO> list = postService.getAllByCategory(categoryId);
-
-        return ResponseFactory.ok(list , "Posts fetched successfully");
-
+        Page<PostDTO> dtoPage = postService.getAllByCategory(categoryId, page, size);
+        return ResponseFactory.paginated(dtoPage, "Posts by category fetched");
     }
 
     // get list of  post by author
     @GetMapping("/author/{authorId}")
-    public ResponseEntity<ApiResponse<List<PostDTO>>> getByAuthor(@PathVariable Long authorId) {
+    public ResponseEntity<ApiResponse<PaginatedResponse<PostDTO>>> getByAuthor(@PathVariable Long authorId ,
+                                                                  @RequestParam(defaultValue = "0") int page,
+                                                                  @RequestParam(defaultValue = "10") int size) {
 
-        List<PostDTO> list = postService.getAllByAuthor(authorId);
+        Page<PostDTO> dtoPage = postService.getAllByAuthor(authorId , page , size);
 
-        return ResponseFactory.ok(list , "Posts fetched successfully");
+        return ResponseFactory.paginated( dtoPage , "Post by Author fetched");
 
     }
 
     // get list of post by title
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<List<PostDTO>>> searchByTitle(@RequestParam String keyword) {
+    public ResponseEntity<ApiResponse<PaginatedResponse<PostDTO>>> searchByTitle(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        List<PostDTO> list = postService.searchByTitle(keyword);
-
-        return ResponseFactory.ok(list , "Search results");
-
+        Page<PostDTO> dtoPage = postService.searchByTitle(keyword, page, size);
+        return ResponseFactory.paginated(dtoPage, "Search results");
     }
+
 
     // get all post
     @GetMapping
-    public ResponseEntity<ApiResponse<List<PostDTO>>> getAll() {
+    public ResponseEntity<ApiResponse<PaginatedResponse<PostDTO>>>getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        List<PostDTO> list = postService.getAll();
-
-        return ResponseFactory.ok(list , "Posts fetched successfully");
-
+        Page<PostDTO> dtoPage = postService.getAll(page, size);
+        return ResponseFactory.paginated(dtoPage, "Posts fetched successfully");
     }
 
 
     @GetMapping("/mine")
-    public ResponseEntity<ApiResponse<List<PostDTO>>> getMyPosts() {
+    public ResponseEntity<ApiResponse<PaginatedResponse<PostDTO>>> getMyPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        List<PostDTO> list = postService.getMyPosts();
-
-        return ResponseFactory.ok(list , "My posts fetched successfully");
-
+        Page<PostDTO> dtoPage = postService.getMyPosts(page, size);
+        return ResponseFactory.paginated(dtoPage, "My posts fetched successfully");
     }
+
 
 
 
