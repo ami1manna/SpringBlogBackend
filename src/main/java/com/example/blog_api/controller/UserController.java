@@ -4,6 +4,7 @@ import com.example.blog_api.dto.api.ApiResponse;
 import com.example.blog_api.dto.user.RegisterRequest;
 import com.example.blog_api.dto.user.UserDTO;
 import com.example.blog_api.service.impl.UserService;
+import com.example.blog_api.utils.ResponseFactory;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -31,14 +32,7 @@ public class UserController {
 
         UserDTO userDTO = userService.registerUser(registerRequest.getName() , registerRequest.getPassword() , "ROLE_VIEWER");
 
-        ApiResponse<UserDTO> res = new ApiResponse<>(
-                HttpStatus.CREATED.value(),
-                "User register succesfully",
-                userDTO
-        );
-
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
-
+        return ResponseFactory.created(userDTO , "User register successfully");
     }
 
     // fetch user data
@@ -47,9 +41,8 @@ public class UserController {
     public ResponseEntity<ApiResponse<UserDTO>> getUserById(@PathVariable Long id) {
         UserDTO userDTO = userService.getUserById(id);
 
-        ApiResponse<UserDTO> res = new ApiResponse<>(HttpStatus.OK.value() , "User fetched successfully" ,userDTO );
+        return ResponseFactory.ok(userDTO , "User fetched successfully");
 
-        return new ResponseEntity<>(res , HttpStatus.OK);
     }
 
     // get all users in database
@@ -58,9 +51,8 @@ public class UserController {
     public ResponseEntity<ApiResponse<List<UserDTO>>> getAllUsers() {
 
         List<UserDTO> users = userService.getAllUsers();
-        return ResponseEntity.ok(
-                new ApiResponse<>(HttpStatus.OK.value() , "User fetched successfully" ,users)
-        );
+        return ResponseFactory.ok(users , "User fetched successfully");
+
     }
 
 

@@ -1,6 +1,8 @@
 package com.example.blog_api.respository;
 
 import com.example.blog_api.entity.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -20,10 +22,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Optional<Post> findBySlug(String slug);
 
-    List<Post> findByCategoryId(Long categoryId);
 
-    List<Post> findByAuthorId(Long authorId);
+    // Paginated versions
+    Page<Post> findByCategoryId(Long categoryId, Pageable pageable);
 
-    List<Post> findByTitleContainingIgnoreCase(String keyword);
+    Page<Post> findByAuthorId(Long authorId, Pageable pageable);
+
+    Page<Post> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
 
 }

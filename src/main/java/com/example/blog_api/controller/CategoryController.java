@@ -3,6 +3,7 @@ package com.example.blog_api.controller;
 import com.example.blog_api.dto.api.ApiResponse;
 import com.example.blog_api.dto.category.CategoryDTO;
 import com.example.blog_api.service.impl.CategoryService;
+import com.example.blog_api.utils.ResponseFactory;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -30,12 +31,8 @@ public class CategoryController {
 
         CategoryDTO saved = categoryService.create(categoryDTO);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(
-                        HttpStatus.CREATED.value(),
-                        "Category updated successfully",
-                        saved)
-        );
+        return ResponseFactory.created(saved , "Category updated successfully");
+
     }
 
     // update Category only admin
@@ -44,19 +41,16 @@ public class CategoryController {
                                                            @RequestBody CategoryDTO categoryDTO) {
         CategoryDTO updated = categoryService.update(id, categoryDTO);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200 , "Category updated successfully" ,updated)
-        );
+        return ResponseFactory.ok(updated , "Category updated successfully");
+
     }
 
     // delete Category only admin
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id) {
         categoryService.delete(id);
+        return ResponseFactory.ok("OK" , "Category deleted successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Category deleted successfully", "OK")
-        );
     }
 
     // get by id Category only admin
@@ -64,10 +58,8 @@ public class CategoryController {
     public ResponseEntity<ApiResponse<CategoryDTO>> getById(@PathVariable Long id) {
 
         CategoryDTO dto = categoryService.getById(id);
+        return ResponseFactory.ok(dto , "Category fetched successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Category fetched successfully", dto)
-        );
     }
 
     // get by slug Category only admin
@@ -75,10 +67,8 @@ public class CategoryController {
     public ResponseEntity<ApiResponse<CategoryDTO>> getBySlug(@PathVariable String slug) {
 
         CategoryDTO dto = categoryService.getBySlug(slug);
+        return ResponseFactory.ok(dto , "Category fetched successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Category fetched successfully", dto)
-        );
     }
 
     // get All Category only admin
@@ -86,9 +76,7 @@ public class CategoryController {
     public ResponseEntity<ApiResponse<List<CategoryDTO>>> getAll() {
 
         List<CategoryDTO> list = categoryService.getAll();
+        return ResponseFactory.ok(list , "Categories fetched successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Categories fetched successfully", list)
-        );
     }
 }

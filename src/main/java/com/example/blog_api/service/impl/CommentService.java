@@ -3,6 +3,7 @@ package com.example.blog_api.service.impl;
 import com.example.blog_api.dto.comment.CommentCreateDTO;
 import com.example.blog_api.dto.comment.CommentDTO;
 import com.example.blog_api.dto.comment.CommentUpdateDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -15,9 +16,9 @@ public interface CommentService {
 
     CommentDTO getById(Long id);
 
-    List<CommentDTO> getAllCommentsForPost(Long postId);
+    Page<CommentDTO> getCommentsForPost(Long postId, int page, int size);
+    Page<CommentDTO> getMyComments(int page, int size);
 
-    List<CommentDTO> getMyComments();
 
 
 }

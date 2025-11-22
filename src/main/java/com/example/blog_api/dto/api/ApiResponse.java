@@ -2,6 +2,7 @@ package com.example.blog_api.dto.api;
 
 import org.springframework.http.HttpStatus;
 
+
 /**
  * Generic API response wrapper used across all controllers.
  */
@@ -42,4 +43,5 @@ public class ApiResponse<T> {
     public T getData() { return data; }
     public void setData(T data) { this.data = data;}
 
-    }
+
+}

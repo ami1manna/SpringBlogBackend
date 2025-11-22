@@ -7,6 +7,7 @@ import com.example.blog_api.dto.auth.RefreshTokenRequest;
 import com.example.blog_api.dto.user.UserDTO;
 import com.example.blog_api.service.AuthServiceImpl;
 import com.example.blog_api.service.impl.AuthService;
+import com.example.blog_api.utils.ResponseFactory;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,10 +34,9 @@ public class AuthController {
 
         UserDTO user = authService.registerViewer(req.getName(), req.getPassword());
 
-        return new ResponseEntity<>(
-                new ApiResponse<>(201, "User created", user),
-                HttpStatus.CREATED
-        );
+        return ResponseFactory.created(user , "User Created");
+
+
     }
 
     // Login
@@ -45,9 +45,8 @@ public class AuthController {
 
         AuthResponse tokens = authService.login(req);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Login successful", tokens)
-        );
+        return ResponseFactory.ok(tokens , "Login successful");
+
     }
 
     @PostMapping("/refresh")
@@ -55,9 +54,7 @@ public class AuthController {
 
         AuthResponse tokens = authService.refresh(req);
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Token refreshed", tokens)
-        );
+        return ResponseFactory.ok(tokens , "Token refreshed");
     }
 
 

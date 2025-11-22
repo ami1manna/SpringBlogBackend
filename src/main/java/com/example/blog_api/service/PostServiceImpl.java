@@ -15,6 +15,9 @@ import com.example.blog_api.respository.UserRepository;
 import com.example.blog_api.security.AuthUtil;
 import com.example.blog_api.service.impl.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -128,46 +131,44 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getAll() {
-        return postRepo.findAll()
-                .stream()
-                .map(PostMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<PostDTO> getAll(int page , int size) {
+        Pageable pageable = PageRequest.of(Math.max(0, page), Math.max(1, size));
+        Page<Post> posts = postRepo.findAll(pageable);
+
+        // map entity page to dto page
+        Page<PostDTO> dtoPage = posts.map(PostMapper::toDTO);
+        return dtoPage;
     }
 
     @Override
-    public List<PostDTO> getAllByAuthor(Long authorId) {
-        return postRepo.findByAuthorId(authorId)
-                .stream()
-                .map(PostMapper::toDTO)
-                .collect(Collectors.toList());
+        public Page<PostDTO> getAllByCategory(Long categoryId, int page, int size) {
+            Pageable pageable = PageRequest.of(Math.max(0, page), Math.max(1, size));
+            Page<Post> posts = postRepo.findByCategoryId(categoryId, pageable);
+            return posts.map(PostMapper::toDTO);
+        }
+
+
+        @Override
+    public Page<PostDTO> getAllByAuthor(Long authorId , int page , int size) {
+            Pageable pageable = PageRequest.of(Math.max(0, page), Math.max(1, size));
+
+        return postRepo.findByAuthorId(authorId , pageable).map(PostMapper::toDTO);
+
+
     }
 
     @Override
-    public List<PostDTO> getAllByCategory(Long categoryId) {
-        return postRepo.findByCategoryId(categoryId)
-                .stream()
-                .map(PostMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<PostDTO> searchByTitle(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(Math.max(0, page), Math.max(1, size));
+        Page<Post> posts = postRepo.findByTitleContainingIgnoreCase(keyword, pageable);
+        return posts.map(PostMapper::toDTO);
     }
-
     @Override
-    public List<PostDTO> searchByTitle(String keyword) {
-        return postRepo.findByTitleContainingIgnoreCase(keyword)
-                .stream()
-                .map(PostMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<PostDTO> getMyPosts() {
-
-        User user = AuthUtil.getLoggedInUser(userRepo);
-
-        return postRepo.findByAuthorId(user.getId())
-                .stream()
-                .map(PostMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<PostDTO> getMyPosts(int page, int size) {
+        User current = AuthUtil.getLoggedInUser(userRepo);
+        Pageable pageable = PageRequest.of(Math.max(0, page), Math.max(1, size));
+        Page<Post> posts = postRepo.findByAuthorId(current.getId(), pageable);
+        return posts.map(PostMapper::toDTO);
     }
 
 }

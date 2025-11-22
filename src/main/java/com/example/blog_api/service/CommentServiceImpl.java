@@ -14,6 +14,9 @@ import com.example.blog_api.respository.PostRepository;
 import com.example.blog_api.respository.UserRepository;
 import com.example.blog_api.security.AuthUtil;
 import com.example.blog_api.service.impl.CommentService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,22 +105,21 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> getAllCommentsForPost(Long postId) {
-        return commentRepo.findByPostId(postId)
-                .stream()
-                .map(CommentMapper::toDTO)
-                .collect(Collectors.toList());
+    @Transactional(readOnly = true)
+    public Page<CommentDTO> getCommentsForPost(Long postId, int page, int size) {
+        Pageable pageable = PageRequest.of(Math.max(0, page), Math.max(1, size));
+        Page<Comment> comments = commentRepo.findByPostId(postId, pageable);
+        return comments.map(CommentMapper::toDTO);
     }
 
     @Override
-    public List<CommentDTO> getMyComments() {
-
-        User user = AuthUtil.getLoggedInUser(userRepo);
-
-        return commentRepo.findByAuthorId(user.getId())
-                .stream()
-                .map(CommentMapper::toDTO)
-                .collect(Collectors.toList());
+    @Transactional(readOnly = true)
+    public Page<CommentDTO> getMyComments(int page, int size) {
+        User current = AuthUtil.getLoggedInUser(userRepo);
+        Pageable pageable = PageRequest.of(Math.max(0, page), Math.max(1, size));
+        Page<Comment> comments = commentRepo.findByAuthorId(current.getId(), pageable);
+        return comments.map(CommentMapper::toDTO);
     }
+
 
 }

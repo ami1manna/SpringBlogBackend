@@ -1,15 +1,15 @@
 package com.example.blog_api.controller;
 
 import com.example.blog_api.dto.api.ApiResponse;
+import com.example.blog_api.dto.api.PaginatedResponse;
 import com.example.blog_api.dto.comment.CommentCreateDTO;
 import com.example.blog_api.dto.comment.CommentDTO;
 import com.example.blog_api.dto.comment.CommentUpdateDTO;
 import com.example.blog_api.service.impl.CommentService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import com.example.blog_api.utils.ResponseFactory;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,13 +30,10 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<CommentDTO>> create(@RequestBody CommentCreateDTO dto) {
-        System.out.println( "create: " + dto);
-        CommentDTO saved = commentService.create(dto);
 
-        return new ResponseEntity<>(
-                new ApiResponse<>(201, "Comment added successfully", saved),
-                HttpStatus.CREATED
-        );
+        CommentDTO saved = commentService.create(dto);
+        return ResponseFactory.created(saved , "Comment added successfully");
+
     }
 
     @PutMapping("/{id}")
@@ -45,10 +42,8 @@ public class CommentController {
             @RequestBody CommentUpdateDTO dto) {
 
         CommentDTO updated = commentService.update(id, dto);
+        return ResponseFactory.ok(updated , "Comment updated successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Comment updated successfully", updated)
-        );
     }
 
     // delete comment by commentId - user
@@ -56,10 +51,8 @@ public class CommentController {
     public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id) {
 
         commentService.delete(id);
+        return ResponseFactory.ok("OK" , "Comment deleted successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Comment deleted successfully", "OK")
-        );
     }
 
     // get comment by CommentId
@@ -67,33 +60,31 @@ public class CommentController {
     public ResponseEntity<ApiResponse<CommentDTO>> getById(@PathVariable Long id) {
 
         CommentDTO dto = commentService.getById(id);
+        return ResponseFactory.ok(dto , "Comment fetched successfully");
 
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Comment fetched successfully", dto)
-        );
     }
 
     // get list of comments by postId
     @GetMapping("/post/{postId}")
-    public ResponseEntity<ApiResponse<List<CommentDTO>>> getByPost(@PathVariable Long postId) {
+    public ResponseEntity<ApiResponse<PaginatedResponse<CommentDTO>>> getByPost(
+            @PathVariable Long postId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        List<CommentDTO> list = commentService.getAllCommentsForPost(postId);
-
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "Comments fetched successfully", list)
-        );
+        Page<CommentDTO> dtoPage = commentService.getCommentsForPost(postId, page, size);
+        return ResponseFactory.paginated(dtoPage, "Comments fetched successfully");
     }
 
 
     @GetMapping("/mine")
-    public ResponseEntity<ApiResponse<List<CommentDTO>>> getMyComments() {
+    public ResponseEntity<ApiResponse<PaginatedResponse<CommentDTO>>> getMyComments(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        List<CommentDTO> list = commentService.getMyComments();
-
-        return ResponseEntity.ok(
-                new ApiResponse<>(200, "My comments fetched successfully", list)
-        );
+        Page<CommentDTO> dtoPage = commentService.getMyComments(page, size);
+        return ResponseFactory.paginated(dtoPage, "My comments fetched successfully");
     }
+
 
 
 
