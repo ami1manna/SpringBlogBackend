@@ -56,6 +56,8 @@ src/main/java/com/ami1manna/blog
 └── service/        → Interfaces + Implementations
     └── impl/
 ```
+## Database Structure 
+![schema-blog](https://github.com/user-attachments/assets/39e00860-14b8-4b1a-b78c-79a5eb67c2e0)
 
 ## Setup
 
@@ -195,3 +197,4 @@ Click **Authorize** and enter: `Bearer <your-access-token>`
 ## License
 
 MIT License
+
