@@ -33,6 +33,15 @@ public  class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth
 
+
+                // ----------------------------
+                // For Swagger
+                // ----------------------------
+                .requestMatchers(
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
+                ).permitAll()
                 // -----------------------------
                 // Public Access
                 // -----------------------------

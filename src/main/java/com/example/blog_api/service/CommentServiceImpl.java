@@ -6,11 +6,13 @@ import com.example.blog_api.dto.comment.CommentUpdateDTO;
 import com.example.blog_api.entity.Comment;
 import com.example.blog_api.entity.Post;
 import com.example.blog_api.entity.User;
+import com.example.blog_api.exception.ApiException;
 import com.example.blog_api.exception.ResourceNotFoundException;
 import com.example.blog_api.mapper.CommentMapper;
 import com.example.blog_api.respository.CommentRepository;
 import com.example.blog_api.respository.PostRepository;
 import com.example.blog_api.respository.UserRepository;
+import com.example.blog_api.security.AuthUtil;
 import com.example.blog_api.service.impl.CommentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,27 +53,48 @@ public class CommentServiceImpl implements CommentService {
         return CommentMapper.toDTO(comment);
     }
 
-    @Override
     public CommentDTO update(Long id, CommentUpdateDTO dto) {
 
         Comment comment = commentRepo.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Comment not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Comment not found: " + id));
+
+        String username = AuthUtil.getLoggedInUsername();
+        User user = userRepo.findByName(username)
+                .orElseThrow(() -> new ApiException("Unauthorized"));
+
+        boolean isAdmin = user.getRole().equals("ROLE_ADMIN");
+
+        if (!isAdmin && !comment.getAuthor().getId().equals(user.getId())) {
+            throw new ApiException("You are not allowed to update this comment");
+        }
 
         comment.setContent(dto.getContent());
-        comment = commentRepo.save(comment);
+        commentRepo.save(comment);
 
         return CommentMapper.toDTO(comment);
     }
 
+
     @Override
     public void delete(Long id) {
+
         Comment comment = commentRepo.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Comment not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Comment not found: " + id));
+
+        String username = AuthUtil.getLoggedInUsername();
+        User user = userRepo.findByName(username)
+                .orElseThrow(() -> new ApiException("Unauthorized"));
+
+        boolean isAdmin = user.getRole().equals("ROLE_ADMIN");
+
+        if (!isAdmin && !comment.getAuthor().getId().equals(user.getId())) {
+            throw new ApiException("You are not allowed to delete this comment");
+        }
 
         commentRepo.delete(comment);
     }
+
+
 
     @Override
     public CommentDTO getById(Long id) {

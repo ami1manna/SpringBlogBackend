@@ -35,7 +35,7 @@ public class Category {
         this.slug = slug;
     }
 
-    public Category(String name, String slug, List<Post> posts) {
+    public Category(String name, String slug) {
         this.name = name;
         this.slug = slug;
 

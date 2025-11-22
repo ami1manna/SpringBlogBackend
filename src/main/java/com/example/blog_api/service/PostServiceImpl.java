@@ -6,11 +6,13 @@ import com.example.blog_api.dto.post.PostUpdateDTO;
 import com.example.blog_api.entity.Category;
 import com.example.blog_api.entity.Post;
 import com.example.blog_api.entity.User;
+import com.example.blog_api.exception.ApiException;
 import com.example.blog_api.exception.ResourceNotFoundException;
 import com.example.blog_api.mapper.PostMapper;
 import com.example.blog_api.respository.CategoryRepository;
 import com.example.blog_api.respository.PostRepository;
 import com.example.blog_api.respository.UserRepository;
+import com.example.blog_api.security.AuthUtil;
 import com.example.blog_api.service.impl.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,19 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Post not found: " + id));
 
+        // Logged-in user
+        String username = AuthUtil.getLoggedInUsername();
+        User user = userRepo.findByName(username)
+                .orElseThrow(() -> new ApiException("Unauthorized"));
+
+        // Admin bypass
+        boolean isAdmin = user.getRole().equals("ROLE_ADMIN");
+
+        if (!isAdmin && !post.getAuthor().getId().equals(user.getId())) {
+            throw new ApiException("You are not allowed to update this post");
+        }
+
+
         // Update fields
         post.setTitle(dto.getTitle()); // title
         post.setSlug(dto.getSlug());  //  slug
@@ -80,9 +95,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void delete(Long id) {
+
         Post post = postRepo.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Post not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found: " + id));
+
+        // Logged-in user
+        String username = AuthUtil.getLoggedInUsername();
+        User user = userRepo.findByName(username)
+                .orElseThrow(() -> new ApiException("Unauthorized"));
+
+        boolean isAdmin = user.getRole().equals("ROLE_ADMIN");
+
+        if (!isAdmin && !post.getAuthor().getId().equals(user.getId())) {
+            throw new ApiException("You are not allowed to delete this post");
+        }
 
         postRepo.delete(post);
     }
