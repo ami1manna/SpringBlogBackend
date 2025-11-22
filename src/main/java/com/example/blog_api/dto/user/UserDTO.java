@@ -5,10 +5,18 @@ package com.example.blog_api.dto.user;
  Returned in response; does NOT expose Password
  */
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "DTO representing a user (password excluded)")
 public class UserDTO {
 
+    @Schema(description = "User ID", example = "1")
     private Long id;
+
+    @Schema(description = "Full name of the user", example = "Amit Manna")
     private String name;
+
+    @Schema(description = "User role", example = "ROLE_ADMIN")
     private String role;
 
     public UserDTO() {}
