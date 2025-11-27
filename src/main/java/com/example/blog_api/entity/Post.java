@@ -26,6 +26,9 @@ public class Post {
     @Column(length = 255)
     private String slug;
 
+    @Column(length = 60 , nullable = true)
+    private String imagePath;
+
     @CreationTimestamp
     @Column(name="created_at" , nullable = false , updatable = false)
     private LocalDateTime createdAt;
