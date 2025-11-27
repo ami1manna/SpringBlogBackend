@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.UUID;
 
 @Component
@@ -47,7 +48,7 @@ public class ImageUtil {
         }
 
         // return file path for string in Db
-        return uploadDir + "/" + newName;
+        return newName;
     }
 
 
@@ -55,6 +56,17 @@ public class ImageUtil {
         if (path == null) return;
         File file = new File(path);
         if (file.exists()) file.delete();
+    }
+
+    public byte[] getImage(String path) {
+        if (path == null) return null;
+        try{
+
+            return Files.readAllBytes(new File(uploadDir + "/" + path).toPath());
+
+        }catch (Exception e){
+            throw new ApiException("Error while reading image for this post");
+        }
     }
 
 }

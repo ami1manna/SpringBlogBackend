@@ -40,7 +40,7 @@ public class DataInitializer {
             //   2) USERS
             // ----------------------------------------------------
             User admin = new User("root", passwordEncoder.encode("pass"), "ROLE_ADMIN");
-            User amit = new User("amit", passwordEncoder.encode("pass"), "ROLE_VIEWER");
+            User amit = new User("string", passwordEncoder.encode("string"), "ROLE_VIEWER");
             User priya = new User("Priya Sharma", passwordEncoder.encode("pass"), "ROLE_VIEWER");
             User rohit = new User("Rohit Kumar", passwordEncoder.encode("pass"), "ROLE_VIEWER");
             User sneha = new User("Sneha Patel", passwordEncoder.encode("pass"), "ROLE_VIEWER");

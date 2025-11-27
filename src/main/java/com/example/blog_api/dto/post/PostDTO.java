@@ -86,4 +86,12 @@ public class PostDTO {
     public void setCategory(CategoryDTO category) {
         this.category = category;
     }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 }

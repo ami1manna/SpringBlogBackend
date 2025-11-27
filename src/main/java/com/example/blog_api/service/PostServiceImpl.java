@@ -198,10 +198,10 @@ public class PostServiceImpl implements PostService {
         String path = imageUtil.saveImage(file);
 
         post.setImagePath(path);
-
+//        System.out.println(post);
         postRepo.save(post);
 
-        System.out.println(PostMapper.toDTO(post));
+//        System.out.println(PostMapper.toDTO(post));
         return PostMapper.toDTO(post);
     }
 
@@ -217,12 +217,7 @@ public class PostServiceImpl implements PostService {
             throw new ApiException("No image found for this post");
         }
 
-        try{
-
-            return Files.readAllBytes(new File(post.getImagePath()).toPath());
-        }catch (Exception e){
-            throw new ApiException("Error while reading image for this post");
-        }
+        return imageUtil.getImage(post.getImagePath());
 
     }
 
