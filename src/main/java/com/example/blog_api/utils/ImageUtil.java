@@ -49,4 +49,12 @@ public class ImageUtil {
         // return file path for string in Db
         return uploadDir + File.separator + newName;
     }
+
+
+    public void deleteImage(String path) {
+        if (path == null) return;
+        File file = new File(path);
+        if (file.exists()) file.delete();
+    }
+
 }

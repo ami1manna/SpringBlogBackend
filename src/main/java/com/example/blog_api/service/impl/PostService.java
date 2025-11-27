@@ -4,6 +4,7 @@ import com.example.blog_api.dto.post.PostCreateDTO;
 import com.example.blog_api.dto.post.PostDTO;
 import com.example.blog_api.dto.post.PostUpdateDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,6 +27,11 @@ public interface PostService {
     Page<PostDTO> searchByTitle(String keyword, int page, int size);
 
     Page<PostDTO> getMyPosts(int page, int size);
+
+    PostDTO uploadImage(Long postID , MultipartFile file);
+    byte[] getImageBytes(Long postId);
+    void deleteImage(Long postId);
+
 
 
 }

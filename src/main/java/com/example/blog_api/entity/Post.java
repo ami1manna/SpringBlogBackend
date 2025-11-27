@@ -137,6 +137,14 @@ public class Post {
         this.category = category;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     // toString
     @Override
     public String toString() {

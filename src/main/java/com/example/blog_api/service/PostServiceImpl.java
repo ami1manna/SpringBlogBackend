@@ -14,13 +14,17 @@ import com.example.blog_api.respository.PostRepository;
 import com.example.blog_api.respository.UserRepository;
 import com.example.blog_api.security.AuthUtil;
 import com.example.blog_api.service.impl.PostService;
+import com.example.blog_api.utils.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,14 +35,16 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepo;
     private final UserRepository userRepo;
     private final CategoryRepository categoryRepo;
-
+    private  final ImageUtil imageUtil;
     @Autowired
     public PostServiceImpl(PostRepository postRepo,
                            UserRepository userRepo,
-                           CategoryRepository categoryRepo) {
+                           CategoryRepository categoryRepo,
+                           ImageUtil imageUtil) {
         this.postRepo = postRepo;
         this.userRepo = userRepo;
         this.categoryRepo = categoryRepo;
+        this.imageUtil = imageUtil;
     }
 
     @Override
@@ -171,4 +177,68 @@ public class PostServiceImpl implements PostService {
         return posts.map(PostMapper::toDTO);
     }
 
+    @Override
+    public PostDTO uploadImage(Long postId, MultipartFile file) {
+        Post post = postRepo.findById(postId)
+                .orElseThrow(()-> new ResourceNotFoundException("Post not found: " + postId));
+
+        // Only owner or admin
+        User current = AuthUtil.getLoggedInUser(userRepo);
+        boolean isAdmin = AuthUtil.isAdmin(current);
+        if (!isAdmin && !post.getAuthor().getId().equals(current.getId())) {
+            throw new ApiException("You are not allowed to update this post");
+        }
+
+        // delete existing
+        if(post.getImagePath() != null){
+            imageUtil.deleteImage(post.getImagePath());
+        }
+
+        // Save new image
+        String path = imageUtil.saveImage(file);
+        post.setImagePath(path);
+
+        postRepo.save(post);
+
+        return PostMapper.toDTO(post);
+    }
+
+
+    @Override
+    public byte[] getImageBytes(Long postId) {
+
+        // find post
+        Post post = postRepo.findById(postId)
+                .orElseThrow(()-> new ResourceNotFoundException("Post not found: " + postId));
+
+        if (post.getImagePath() == null) {
+            throw new ApiException("No image found for this post");
+        }
+
+        try{
+
+            return Files.readAllBytes(new File(post.getImagePath()).toPath());
+        }catch (Exception e){
+            throw new ApiException("Error while reading image for this post");
+        }
+
+    }
+
+    @Override
+    public void deleteImage(Long postId) {
+        Post post = postRepo.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
+
+        // Only owner or admin
+        User current = AuthUtil.getLoggedInUser(userRepo);
+        boolean isAdmin = AuthUtil.isAdmin(current);
+        if (!isAdmin && !post.getAuthor().getId().equals(current.getId())) {
+            throw new ApiException("Not allowed to delete image");
+        }
+
+        imageUtil.deleteImage(post.getImagePath());
+        post.setImagePath(null);
+
+        postRepo.save(post);
+    }
 }
