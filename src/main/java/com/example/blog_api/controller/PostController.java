@@ -7,6 +7,10 @@ import com.example.blog_api.dto.post.PostDTO;
 import com.example.blog_api.dto.post.PostUpdateDTO;
 import com.example.blog_api.service.impl.PostService;
 import com.example.blog_api.utils.ResponseFactory;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -137,9 +141,27 @@ public class PostController {
     }
 
     //Images
-    @PostMapping("{postId}/image")
+
+
+    @Operation(
+            summary = "Upload or replace post image",
+            description = "Uploads a PNG image for the given post. Only the post owner or admin can upload."
+    )
+    @PostMapping(
+            value = "/{postId}/image",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<ApiResponse<PostDTO>> uploadImage(
             @PathVariable Long postId,
+
+            @Parameter(
+                    description = "PNG image to upload",
+                    required = true,
+                    content = @Content(
+                            mediaType = "multipart/form-data",
+                            schema = @Schema(type = "string", format = "binary")
+                    )
+            )
             @RequestParam("image") MultipartFile image
             ){
 

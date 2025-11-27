@@ -196,10 +196,12 @@ public class PostServiceImpl implements PostService {
 
         // Save new image
         String path = imageUtil.saveImage(file);
+
         post.setImagePath(path);
 
         postRepo.save(post);
 
+        System.out.println(PostMapper.toDTO(post));
         return PostMapper.toDTO(post);
     }
 

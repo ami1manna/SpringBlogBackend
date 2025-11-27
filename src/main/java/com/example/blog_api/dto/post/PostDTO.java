@@ -10,6 +10,8 @@ public class PostDTO {
     private String title;
     private String content;
     private String slug;
+    private String imagePath;
+
     private LocalDateTime createdAt;
 
     private UserDTO user;
@@ -17,7 +19,7 @@ public class PostDTO {
 
     public PostDTO() {}
 
-    public PostDTO(Long id, String title, String content, String slug, LocalDateTime createdAt, UserDTO user, CategoryDTO category) {
+    public PostDTO(Long id, String title, String content, String slug, String imagePath,  LocalDateTime createdAt, UserDTO user, CategoryDTO category ) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -25,6 +27,8 @@ public class PostDTO {
         this.createdAt = createdAt;
         this.user = user;
         this.category = category;
+        this.imagePath = imagePath;
+
     }
 
     public Long getId() {

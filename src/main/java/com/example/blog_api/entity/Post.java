@@ -26,7 +26,7 @@ public class Post {
     @Column(length = 255)
     private String slug;
 
-    @Column(length = 60 , nullable = true)
+    @Column(length = 255 , nullable = true)
     private String imagePath;
 
     @CreationTimestamp

@@ -22,6 +22,7 @@ public class PostCreateDTO {
      @Schema(description = "Main content of the post", example = "Full article content...")
      private String content;
 
+
     public PostCreateDTO() {}
 
 

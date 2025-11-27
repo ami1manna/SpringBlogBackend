@@ -11,10 +11,10 @@ import java.util.UUID;
 
 @Component
 public class ImageUtil {
-    @Value("app.upload.dir")
+    @Value("${app.upload.dir}")
     private  String uploadDir;
-    @Value("app.allowed.extension")
-    private final String allowedExt = "png";
+    @Value("${app.allowed.extension}")
+    private String allowedExt;
 
     public String saveImage(MultipartFile file) {
 
@@ -47,7 +47,7 @@ public class ImageUtil {
         }
 
         // return file path for string in Db
-        return uploadDir + File.separator + newName;
+        return uploadDir + "/" + newName;
     }
 
 

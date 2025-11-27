@@ -17,11 +17,13 @@ public class PostMapper {
         UserDTO author = UserMapper.toDTO(post.getAuthor());
         CategoryDTO category = CategoryMapper.toDTO(post.getCategory());
 
+//        System.out.println(post);
         return new PostDTO(
                 post.getId(),
                 post.getTitle(),
                 post.getSlug(),
                 post.getContent(),
+                post.getImagePath(),
                 post.getCreatedAt(),
                 author,
                 category
