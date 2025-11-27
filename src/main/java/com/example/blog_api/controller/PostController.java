@@ -10,8 +10,11 @@ import com.example.blog_api.utils.ResponseFactory;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 // for swagger
@@ -133,6 +136,36 @@ public class PostController {
         return ResponseFactory.paginated(dtoPage, "My posts fetched successfully");
     }
 
+    //Images
+    @PostMapping("{postId}/image")
+    public ResponseEntity<ApiResponse<PostDTO>> uploadImage(
+            @PathVariable Long postId,
+            @RequestParam("image") MultipartFile image
+            ){
+
+        PostDTO dto = postService.uploadImage(postId, image);
+        return ResponseFactory.ok(dto , "Post image uploaded successfully");
+
+    }
+
+    @GetMapping("/{postId}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Long postId) {
+
+        byte[] image = postService.getImageBytes(postId);
+
+        return  ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(image);
+    }
+
+    @DeleteMapping("/{postId}/image")
+    public ResponseEntity<ApiResponse<String>> deleteImage(@PathVariable Long postId) {
+
+        postService.deleteImage(postId);
+
+        return ResponseEntity.ok(new ApiResponse<>(200, "Image deleted", "OK"));
+    }
 
 
 
